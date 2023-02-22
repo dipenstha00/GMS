@@ -1,0 +1,7 @@
+<ul class="list-group">
+    <a href="/dashboard" class="list-group-item {% if request.path == '/dashboard/' %} active {% endif %}">Dashboard</a>
+    <a href="/updateprofile" class="list-group-item {% if request.path == '/updateprofile/' %} active {% endif %}">Profile</a>
+    <a href="{% url 'change_password' %}" class="list-group-item {% if request.path == '/change-password/' %} active {% endif %}">Change Password</a>
+    <a href="/notify" class="list-group-item {% if request.path == '/notify/' %} active {% endif %}">Notifications<span class="float-end badge bg-info mt-1">{{totalUnread}}</span></a>
+    <a href="#" class="list-group-item {% if request.path == '/messages/' %} active {% endif %}">Messages</a>
+</ul>

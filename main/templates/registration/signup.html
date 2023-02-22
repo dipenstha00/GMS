@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+ 
+{% block content %}
+{% if not user.is_authenticated %}
+<div class="container py-3">
+    <section class="col-md-6 offset-3">
+    
+        <!--Section heading-->
+        <h2 class="h1-responsive font-weight-bold text-center my-4">Sign Up</h2>
+        
+    
+        <div class="row">
+    
+            <!--Grid column-->
+            <div class="col-md-5 mb-md-0 mb-5" style="margin:0 auto;">
+                {% if msg %}
+                    <p class="text-success">{{msg}}</p>
+                {% endif %}
+                <form id="contact-form" name="contact-form" action="/accounts/signup/" method="POST">
+                    {% csrf_token %}
+                    <table class="table table-bordered">
+                        {{form.as_table}}
+                    </table>
+                    <tr>
+                        <td colspan="2">
+                            <input type="submit" class="btn btn-primary">
+                        </td>
+                    </tr>
+    
+                </form>
+                <p>Already a user? Login<a href="/accounts/signup"> here</a> </p>
+            </div>
+           
+    
+       
+    
+        </div>
+    
+    </section>
+    </div>
+{% else %}
+<div class="container">
+<h1 class="text-danger">User is already logged in.</h1>
+</div>
+{% endif %}
+{% endblock %}
