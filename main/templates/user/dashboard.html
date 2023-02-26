@@ -16,16 +16,60 @@
                         <div class="card-body">
                             <p class="card-text">{{current_plan.plan}}</p>
                             <p>Price: Rs. {{current_plan.price}}</p>
+                            <p>Purchased on: {{current_plan.reg_date}}</p>
+                            <p>Expires on: {{enddate}}</p>
                         </div>
                     </div>
             </div>
         
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">Current Trainer</div>
                     <div class="card-body">
-                        <p class="card-text">{{current_trainer.trainer.full_name}}</p>
-                        <img class="card-image" src="{{current_trainer.trainer.image}}"/>
+                        <img class="card-img-bottom" src="{{current_trainer.trainer.image.url}}" alt="{{current_trainer.trainer.full_name}}"/>
+                        <h6 class="card-text">{{current_trainer.trainer.full_name}}</h6>
+                    </div>
+                    <div class="card-footer">
+                        <a href="{{current_trainer.trainer.instagram}}" class="btn btn-pimary"><i class="bi bi-instagram"></i></a>
+                        <a href="{{current_trainer.trainer.twitter}}" class="btn btn-pimary"><i class="bi bi-twitter"></i></a>
+                        <a href="{{current_trainer.trainer.youtube}}" class="btn btn-pimary"><i class="bi bi-youtube"></i></a>
+                        <button class="btn btn-pimary float-end" data-bs-toggle="modal" data-bs-target="#AchievementModal" title="Achievement"><i class="bi bi-trophy "></i></button>
+                        <div class="modal fade" id="AchievementModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h1 class="modal-title fs-5 " id="exampleModalLabel">{{current_trainer.trainer.full_name}}'s Achievements</h1>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                  <table class="table table-hover">
+                                    <thead>
+                                        <th>Title</th>
+                                        <th>Image</th>
+                                        <th>Detail</th>
+                                    </thead>
+                                    <tbody>
+                                        {% for item in current_trainer.trainer.achievement_set.all %}
+                                        <tr>
+                                        <td>{{item.title}}</td>
+                                        <td><img src="{{item.img.url}}" width="80"/></td>
+                                        <td>{{item.detail}}</td>
+                                        
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                  </table>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-sm" data-bs-dismiss="modal">Close</button>
+                            
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          
+                    
+                    
                     </div>
                 </div>
         </div>

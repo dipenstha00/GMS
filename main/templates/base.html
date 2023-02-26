@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <script src="{% static 'bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'jquery.min.js' %}"></script>
+    
     <!-- Lightbox -->
     <!-- <link href="{% static 'lightbox2/dist/css/lightbox.min.css' %}" rel="stylesheet" type="text/css">
     <script src="{% static 'lightbox2/dist/js/lightbox.min.js' %}"></script> -->
@@ -42,7 +43,7 @@
                 </a>
                 <ul class="dropdown-menu">
                   {% if not request.user.is_authenticated %}
-                  {% if request.session.trainerLogin %}
+                  {% if not request.session.trainerLogin %}
                   <li><a class="dropdown-item" href="{% url 'trainerlogin' %}">Trainer Login</a></li>
                   {% else %}
                   <li><a class="dropdown-item" href="{% url 'trainerlogout' %}">Trainer Logout</a></li>

@@ -31,7 +31,7 @@ admin.site.register(models.GalleryImage, GalleryImageAdmin)
 
 class SubscriptionAdmin(admin.ModelAdmin):
     list_editable=('max_member',)
-    list_display=('title','price','max_member')
+    list_display=('title','price','max_member','validity_days')
 admin.site.register(models.Subscription, SubscriptionAdmin)
 
 class SubscriptionFeatureAdmin(admin.ModelAdmin):
@@ -51,7 +51,7 @@ class SubscriberAdmin(admin.ModelAdmin):
 admin.site.register(models.Subscriber, SubscriberAdmin)
 
 class SubscriberPlanAdmin(admin.ModelAdmin):
-    list_display=('user','plan','price')
+    list_display=('user','plan','price','reg_date')
 admin.site.register(models.SubscriberPlan, SubscriberPlanAdmin)
 
 class TrainerAdmin(admin.ModelAdmin):
@@ -71,3 +71,6 @@ class AssignSubscriberAdmin(admin.ModelAdmin):
     list_display=('trainer','user')
 admin.site.register(models.AssignSubscriber, AssignSubscriberAdmin)
  
+class AchievementAdmin(admin.ModelAdmin):
+    list_display=('title','image_tag')
+admin.site.register(models.Achievement, AchievementAdmin)

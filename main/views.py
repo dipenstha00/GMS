@@ -2,10 +2,11 @@ from django.shortcuts import render,redirect
 from .models import *
 from . import forms
 from django.template.loader import get_template
+from django.db.models import Count
 from django.core import serializers
 from django.http import JsonResponse
 import stripe
-
+from datetime import timedelta
 # Create your views here.
 def home(request):
     sliders = Slider.objects.all()
@@ -13,8 +14,9 @@ def home(request):
     return render(request,'index.html',{'sliders':sliders,'cards':cards})
 
 def package(request):
-    package=Subscription.objects.all().order_by('price')
+    package=Subscription.objects.annotate(total_members=Count('subscriberplan__id')).all().order_by('price')
     features=SubscriptionFeature.objects.all()
+
     return render(request, 'pricing.html',{'package':package,'features':features})
 
 
@@ -115,6 +117,8 @@ def pay_cancel(request):
 def userdashboard(request):
     current_plan=SubscriberPlan.objects.get(user=request.user)
     current_trainer=AssignSubscriber.objects.get(user=request.user)
+    enddate=current_plan.reg_date+timedelta(days=current_plan.plan.validity_days)
+    # achieve=Achievement.objects.all()
     data=Notify.objects.all().order_by('-id')
     notifStatus=False
     jsondata=[]
@@ -134,7 +138,8 @@ def userdashboard(request):
         'current_plan':current_plan,
         'current_trainer':current_trainer,
         'totalUnread':totalUnread,
-
+        'enddate' : enddate,
+        # 'achieve' : achieve,
     })
 
 

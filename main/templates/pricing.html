@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-
+{% load mathfilters %}
 {% block content %}
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
 <section class="container my-4">
@@ -8,6 +8,7 @@
 <main>
 <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
   {% for pack in package %}
+  {{pack.total_members}}
   <div class="col">
     <div class="card mb-4 rounded-3 shadow-sm">
       {% if pack.title == 'Basic' %}
@@ -23,8 +24,8 @@
         <h4 class="my-0 fw-normal">{{pack.title}}</h4>
       </div>
       <div class="card-body">
-        <h1 class="card-title pricing-card-title">Rs. {{pack.price}}<small class="text-muted fw-light">/mo</small></h1>
-        <p class="text-primary">Max Member: {{pack.max_member}}</p>
+        <h1 class="card-title pricing-card-title">Rs. {{pack.price}}<small class="text-muted fw-light">/{{pack.validity_days}} days</small></h1>
+        <p class="text-primary">Max Member: {{pack.max_member|sub:pack.total_members}}</p>
         <ul class="list-unstyled mt-3 mb-4">
           {% for package in pack.subscriptionfeature_set.all %}
           <li>{{package.title}}</li>

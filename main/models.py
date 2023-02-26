@@ -8,6 +8,8 @@ class Slider(models.Model):
     img=models.ImageField(upload_to="sliders/")
     alt_text = models.CharField(max_length=150)
 
+    class Meta:
+        verbose_name_plural='Slider'
     def __str__(self):
         return self.alt_text
 
@@ -18,6 +20,9 @@ class Services(models.Model):
     title=models.CharField(max_length=150)
     detail=models.TextField()
     img=models.ImageField(upload_to="services/")
+    
+    class Meta:
+        verbose_name_plural='Services'
 
     def __str__(self):
         return self.title
@@ -56,6 +61,9 @@ class Gallery(models.Model):
     detail=models.TextField()
     img=models.ImageField(upload_to="gallery/")
 
+    class Meta:
+        verbose_name_plural='Gallery'
+
     def __str__(self):
         return self.title
 
@@ -78,7 +86,7 @@ class Subscription(models.Model):
     title=models.CharField(max_length=150)
     price=models.IntegerField()
     max_member=models.IntegerField(null=True)
-
+    validity_days=models.IntegerField(null=True)
     def __str__(self):
         return self.title
 
@@ -122,7 +130,7 @@ class SubscriberPlan(models.Model):
     user=models.ForeignKey(User, on_delete=models.CASCADE)
     plan=models.ForeignKey(Subscription,on_delete=models.CASCADE)
     price=models.CharField(max_length=50)
-
+    reg_date=models.DateField(auto_now_add=True,null=True)
 
 class Trainer(models.Model):
     full_name = models.CharField(max_length=150)
@@ -133,6 +141,9 @@ class Trainer(models.Model):
     is_active=models.BooleanField(default=False)
     detail = models.TextField()
     image = models.ImageField(upload_to='trainers/')
+    instagram=models.CharField(max_length=300,null=True)
+    twitter=models.CharField(max_length=300,null=True)
+    youtube=models.CharField(max_length=300,null=True)
 
     def __str__(self):
         return self.full_name
@@ -145,6 +156,8 @@ class Notify(models.Model):
     read_by_user=models.ForeignKey(User,on_delete=models.CASCADE, null=True,blank=True)
     read_by_trainer=models.ForeignKey(Trainer,on_delete=models.CASCADE, null=True,blank=True)
     
+    class Meta:
+        verbose_name_plural='Notification'
 
     def __str__(self):
         return str(self.notifydetail)
@@ -161,3 +174,22 @@ class AssignSubscriber(models.Model):
 
     def __str__(self):
         return str(self.user)
+    
+
+class Achievement(models.Model):
+    trainer=models.ForeignKey(Trainer,on_delete=models.CASCADE)
+    title = models.CharField(max_length=100)
+    detail=models.TextField()
+    img=models.ImageField(upload_to='achievements/')
+
+    def __str__(self):
+        return self.title
+    
+    def image_tag(self):
+        if self.img:
+            return mark_safe('<img src="%s" width="80>' % self.img.url)
+        else:
+            return 'no-image'
+    
+    class Meta:
+        verbose_name_plural="Trainer's Achievements"
