@@ -144,6 +144,7 @@ class Trainer(models.Model):
     instagram=models.CharField(max_length=300,null=True)
     twitter=models.CharField(max_length=300,null=True)
     youtube=models.CharField(max_length=300,null=True)
+    salary=models.IntegerField(null=True)
 
     def __str__(self):
         return self.full_name
@@ -193,3 +194,17 @@ class Achievement(models.Model):
     
     class Meta:
         verbose_name_plural="Trainer's Achievements"
+
+
+class TrainerSalary(models.Model):
+    trainer= models.ForeignKey(Trainer, on_delete=models.CASCADE)
+    amount=models.IntegerField()
+    date_given=models.DateField()
+    remarks=models.TextField(null=True)
+
+    def __str__(self):
+        return self.trainer.full_name
+    
+    class Meta:
+        verbose_name_plural="Trainer's Salary"
+

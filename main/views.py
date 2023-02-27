@@ -156,6 +156,7 @@ def update_profile(request):
 def password_changed(request):
     return render(request,'registration/password_changed.html')
 
+# Trainer Views
 def trainerlogin(request):
     msg=None
     if request.method == 'POST':
@@ -163,7 +164,10 @@ def trainerlogin(request):
         password=request.POST['password']
         trainer=Trainer.objects.filter(username=username,password=password).count()
         if trainer > 0:
+            trainer=Trainer.objects.filter(username=username,password=password).first()
             request.session['trainerLogin']=True
+            request.session['trainerid']=trainer.id
+            print(trainer.id)
             return redirect('/trainer_dashboard')
         else:
             msg='Invalid'
@@ -174,6 +178,15 @@ def trainerlogout(request):
     del request.session['trainerLogin']
     return redirect('/trainerlogin')
 
+def trainerdashboard(request):
+    return render(request,'trainer/trainer-dashboard.html')
+
+def trainerprofile(request):
+    trainer_id=request.session['trainerid']
+    trainer=Trainer.objects.get(pk=trainer_id)
+    form=forms.TrainerProfileForm(instance=trainer)
+    
+    return render(request,'trainer/trainer-profile.html',{'form':form,'trainer':trainer})
 
 def notify(request):
     data = Notify.objects.all().order_by('-id')
